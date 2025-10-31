@@ -20,9 +20,8 @@ ENV/
 *.pickle
 .cache/
 
-# LlamaIndex storage
-# Uncomment the line below to exclude storage/ if you want to build index on deployment
-# storage/
+# LlamaIndex storage (too large for GitHub, build locally)
+storage/
 
 # Resumes (private data)
 resumes/
