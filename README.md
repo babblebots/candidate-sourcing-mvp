@@ -110,36 +110,53 @@ In `diagnose_resumes.py`:
 - "DevOps AWS Kubernetes Docker"
 - "Java Spring Boot microservices"
 
-## 🚢 Deployment on Streamlit Cloud
+## 🚢 Deployment Options
 
-### 1. Push to GitHub
+### ⚠️ Important Note
+
+This app requires:
+1. **Resume files** (PDFs/DOCX) in the `resumes/` folder
+2. **Search index** (generated in `storage/` folder)
+
+Both are excluded from git for privacy and size reasons.
+
+### Option 1: Local Deployment (Recommended)
+
+Perfect for private resume databases:
 
 ```bash
-git add .
-git commit -m "Initial commit"
-git push origin main
+# Clone and setup
+git clone https://github.com/babblebots/candidate-sourcing-mvp.git
+cd candidate-sourcing-mvp
+pip install -r requirements.txt
+
+# Add your resumes to resumes/
+# Set your OpenAI API key
+export OPENAI_API_KEY='your-key'
+
+# Build search index
+python diagnose_resumes.py
+
+# Run the app
+streamlit run app.py
 ```
 
-### 2. Configure Secrets
+### Option 2: Streamlit Cloud with Sample Data
 
-In Streamlit Cloud, add your secrets:
-```toml
-OPENAI_API_KEY = "your-api-key-here"
-```
+For demo purposes with public/sample resumes:
 
-### 3. Pre-build Index
+1. Add sample resumes to `resumes/` folder
+2. Build index locally: `python diagnose_resumes.py`
+3. Temporarily commit storage: 
+   ```bash
+   git add -f storage/
+   git commit -m "Add search index for deployment"
+   git push origin main
+   ```
+4. Deploy on [share.streamlit.io](https://share.streamlit.io)
+5. Add OpenAI API key in secrets
 
-⚠️ **Important**: Build the index locally before deploying:
-1. Run `python diagnose_resumes.py` locally
-2. Commit the `storage/` directory (temporarily remove from `.gitignore`)
-3. Push to GitHub
-
-### 4. Deploy
-
-1. Go to [share.streamlit.io](https://share.streamlit.io)
-2. Connect your GitHub repo
-3. Select `app.py` as the main file
-4. Deploy!
+**Note**: The `storage/` folder is large (50MB+) and may require Git LFS for easier management.
 
 ## 📝 Notes
 
